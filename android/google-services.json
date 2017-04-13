@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "143580046552",
+    "firebase_url": "https://ruqola-161705.firebaseio.com",
+    "project_id": "ruqola-161705",
+    "storage_bucket": "ruqola-161705.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143580046552:android:e2d7a19a5446dc1e",
+        "android_client_info": {
+          "package_name": "org.kde.ruqola"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "143580046552-ep8s928g6r0q4uene88t1unbe59pr7ud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjvuH0dLskVE_STj1PG-tWvqBxxOmf5g4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
