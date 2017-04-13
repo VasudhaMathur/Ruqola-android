@@ -34,4 +34,6 @@ DISTFILES += \
     android/FCMMessagingService.java \
     android/SubscribeToTopic.java \
     android/gradle/wrapper/gradle-wrapper.properties~ \
-    android/res/drawable-ldpi/icon.png
+    android/res/drawable-ldpi/icon.png \
+    android/gradlew \
+    android/gradlew.bat
