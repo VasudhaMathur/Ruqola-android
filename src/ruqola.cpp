@@ -99,7 +99,7 @@ DDPClient * Ruqola::ddp()
 
 Notification * Ruqola::notification()
 {
-    if (!m_notification) {
+    if (m_notification == NULL) {
         m_notification = new Notification();
         m_notification->show();
     }
@@ -148,7 +148,7 @@ void Ruqola::setServerURL(const QString& serverURL)
 DDPClient::LoginStatus Ruqola::loginStatus()
 {
     if (m_ddp) {
-        return m_ddp()->loginStatus();
+        return ddp()->loginStatus();
     } else {
         return DDPClient::LoggedOut;
     }

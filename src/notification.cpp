@@ -20,11 +20,30 @@
  *
  */
 
-#include "ruqola.h"
 #include "notification.h"
+#include "ruqola.h"
 
-#include <QtAndroidExtras/QAndroidJniObject>
+#include <QAction>
+#include <QMenu>
+#include <QMessageBox>
 
+bool Notification::windowVisible() const
+{
+    return m_windowVisible;
+}
+
+void Notification::setWindowVisible(bool value)
+{
+    if (m_windowVisible != value){
+        m_windowVisible = value;
+        emit windowVisibleChanged();
+    }
+}
+
+QString Notification::message() const
+{
+    return m_message;
+}
 
 void Notification::setMessage(const QString &message)
 {
@@ -34,66 +53,48 @@ void Notification::setMessage(const QString &message)
     }
 }
 
-QString Notification::message() const
-{
-    return m_message;
-}
-
-void Notification::updateAndroidNotification()
-{
-    //Link cpp function to java function
-    //params- Java className, MethodName, (Arguments)ReturnType, JNIObject
-    QAndroidJniObject javaNotification = QAndroidJniObject::fromString(m_message);
-    QAndroidJniObject::callStaticMethod<void>("android/FCMMessagingService/NotificationClient",
-                                       "notify",
-                                       "(Ljava/lang/String;)V",
-                                       javaNotification.object<jstring>());
-}
-
-Notification::Notification(){
-     connect(this, &Notification::messageChanged, this, &Notification::updateAndroidNotification);
-}
-
-
-/*
- *
- *  Desktop Application code
- *
- *
-#include <QAction>
-#include <QMenu>
-#include <QMessageBox>
-#include <QWindow>
 
 //create actions in Menu
 void Notification::createActions(){
-    qDebug() << "create action called";
-   m_quitAction = new QAction(tr("&Quit"), this);
-   connect(m_quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+    m_quitAction = new QAction(tr("&Quit"), this);
+    connect(m_quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 }
 
 //create systrayIcon
 void Notification::createTrayIcon(){
 
-    qDebug() << "create trayIcon called";
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
         QMessageBox::critical(0, QObject::tr("Systray"), QObject::tr("Cannot detect SystemTray on this system."));
         return;
     }
+    
     m_trayIconMenu = new QMenu();
     m_trayIconMenu->addAction(m_quitAction);
     m_trayIconMenu->addSeparator();
-    this->setContextMenu(m_trayIconMenu);
-    this->setToolTip("Ruqola");
-    this->setIcon(QIcon(":/systray.png"));
-    this->setVisible(true);
+    
+    setContextMenu(m_trayIconMenu);
+    setToolTip("Ruqola");
+    setIcon(QIcon(":/systray.png"));
+    setVisible(true);
 
 }
 
-Notification::Notification(): m_windowClosed(false){
+void Notification::updateDesktopNotification()
+{
+    if (!windowVisible()){
+        QString title("New Ruqola Message!"); //This can be enhanced later
+        showMessage(title, m_message, QSystemTrayIcon::Information, 5000 );
+    }
+}
+
+
+Notification::Notification()
+ : m_windowVisible(true)
+{
     createActions();
     createTrayIcon();
+
+    //connect messageChanged signal to updateDesktopNotification Slot
+    connect(this, &Notification::messageChanged, this, &Notification::updateDesktopNotification);
+
 }
-
-*/
-

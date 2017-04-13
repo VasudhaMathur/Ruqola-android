@@ -38,12 +38,12 @@ class Ruqola: public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY (QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
-    Q_PROPERTY (QString userID READ userID WRITE setUserID NOTIFY userIDChanged)
-    Q_PROPERTY (QString serverURL READ serverURL WRITE setServerURL NOTIFY serverURLChanged)
-    Q_PROPERTY (QString password WRITE setPassword)
+    Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
+    Q_PROPERTY(QString userID READ userID WRITE setUserID NOTIFY userIDChanged)
+    Q_PROPERTY(QString serverURL READ serverURL WRITE setServerURL NOTIFY serverURLChanged)
+    Q_PROPERTY(QString password WRITE setPassword)
 //     Q_PROPERTY (bool connected READ connected NOTIFY connectedChanged)
-    Q_PROPERTY (DDPClient::LoginStatus loginStatus READ loginStatus NOTIFY loginStatusChanged)
+    Q_PROPERTY(DDPClient::LoginStatus loginStatus READ loginStatus NOTIFY loginStatusChanged)
 //     Q_PROPERTY(QString activeRoom READ activeRoom WRITE setActiveRoom NOTIFY activeRoomChanged)
 
 public:
@@ -71,18 +71,16 @@ public:
 //     void setActiveRoom(const QString &activeRoom);
 
     DDPClient *ddp();
+    Notification * notification();
+
     Q_INVOKABLE RoomModel *roomModel();
-
-    Q_INVOKABLE Notification * notification();
-//    void showNotification();
-
     Q_INVOKABLE void sendMessage(const QString &roomID, const QString &message);
     Q_INVOKABLE MessageModel* getModelForRoom(const QString &roomID);
 
     Q_INVOKABLE void tryLogin();
     Q_INVOKABLE void logOut();
     Q_INVOKABLE RoomWrapper* getRoom(const QString &roomID);
-    //     void setRoomModel();
+//     void setRoomModel();
 
     QString cacheBasePath() const;
 

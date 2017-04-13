@@ -24,6 +24,7 @@
 
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
+#include <QtCore/QJsonArray>
 
 #include <iostream>
 #include "ruqola.h"
@@ -64,19 +65,17 @@ DDPClient::DDPClient(const QString& url, QObject* parent)
   m_attemptedPasswordLogin(false),
   m_attemptedTokenLogin(false)
 {
-//    m_webSocket.ignoreSslErrors();
+    m_webSocket.ignoreSslErrors();
+    connect(&m_webSocket, &QWebSocket::connected, this, &DDPClient::onWSConnected);
+    connect(&m_webSocket, &QWebSocket::textMessageReceived, this, &DDPClient::onTextMessageReceived);
+    connect(&m_webSocket, &QWebSocket::disconnected, this, &DDPClient::WSclosed);
+    connect(Ruqola::self(), &Ruqola::serverURLChanged, this, &DDPClient::onServerURLChange);    
+    
     if (!url.isEmpty()) {
-        bool con = connect(&m_webSocket, &QWebSocket::connected, this, &DDPClient::onWSConnected);
-        qDebug()<<con ;
-
-        connect(&m_webSocket, &QWebSocket::textMessageReceived, this, &DDPClient::onTextMessageReceived);
-        connect(&m_webSocket, &QWebSocket::disconnected, this, &DDPClient::WSclosed);
-        connect(Ruqola::self(), &Ruqola::serverURLChanged, this, &DDPClient::onServerURLChange);
-
-        m_webSocket.open(QUrl("wss://"+url+"/websocket:8000"));
-        qDebug() << "Trying to connect to URL" << url;
-        qDebug() << m_webSocket.error();
+        m_webSocket.open(QUrl("wss://"+url+"/websocket"));
     }
+    qDebug() << "Trying to connect to URL" << url;
+    
 }
 
 DDPClient::~DDPClient()
@@ -120,18 +119,21 @@ unsigned int DDPClient::method(const QString& m, const QJsonDocument& params)
 
 unsigned int DDPClient::method(const QString& method, const QJsonDocument& params, std::function<void (QJsonDocument)> callback)
 {
-    QString json;
-    if (params.isArray()){
-        json = "{\"msg\":\"method\", \"method\": \"%1\", \"id\": \"%2\", \"params\": %3}";
-    } else {
-        json = "{\"msg\":\"method\", \"method\": \"%1\", \"id\": \"%2\", \"params\": [%3]}";
-    }
-    
-    json = json.arg(method).arg(m_uid).arg(QString(params.toJson(QJsonDocument::Compact)));
-    qDebug() << json.arg(method).arg(m_uid);//.arg(QString(params.toJson(QJsonDocument::Indented)));
+    QJsonObject json;
+    json["msg"] = "method";
+    json["method"] = method;
+    json["id"] = QString::number(m_uid);
 
-    
-    qint64 bytes = m_webSocket.sendTextMessage(json.toUtf8());
+    if (params.isArray()){
+        json["params"] = params.array();
+    } else if (params.isObject()) {
+        QJsonArray arr;
+        arr.append(params.object());
+        json["params"] = arr;
+//         params.object();
+    }
+        
+    qint64 bytes = m_webSocket.sendTextMessage(QJsonDocument(json).toJson(QJsonDocument::Compact));
     if (bytes < json.length()) {
         qDebug() << "ERROR! I couldn't send all of my message. This is a bug! (try again)";
         qDebug() << m_webSocket.isValid() << m_webSocket.error() << m_webSocket.requestUrl();
@@ -146,34 +148,32 @@ unsigned int DDPClient::method(const QString& method, const QJsonDocument& param
     return m_uid - 1 ;
 }
 
-void DDPClient::subscribe(const QString& collection, const QJsonDocument& params)
+void DDPClient::subscribe(const QString& collection, const QJsonArray& params)
 {
-    QString json("{\"msg\":\"sub\",\"id\": \"%1\",\"name\":\"%2\", \"params\": %3}");
-    json = json.arg(m_uid).arg(collection).arg(QString(params.toJson(QJsonDocument::Compact)));
-    qint64 bytes = m_webSocket.sendBinaryMessage(json.toUtf8()); // FIXME : text? maybe binary will be better - check if it keeps working
+    QJsonObject json;
+    json["msg"] = "sub";
+    json["id"] = QString::number(m_uid);
+    json["name"] = collection;
+    json["params"] = params;
+    
+    qint64 bytes = m_webSocket.sendTextMessage(QJsonDocument(json).toJson(QJsonDocument::Compact));
     if (bytes < json.length()) {
         qDebug() << "ERROR! I couldn't send all of my message. This is a bug! (try again)";
-    } else {
-        qDebug() << "Successfully sent " << json;
     }
     
     m_uid++;
-    
 }
 
 void DDPClient::onTextMessageReceived(QString message)
 {
     QJsonDocument response = QJsonDocument::fromJson(message.toUtf8());
-    qDebug() << "Inside onTextMessageRecieved";
     if (!response.isNull() && response.isObject()) {
 
         QJsonObject root = response.object();
 
         QString messageType = root.value("msg").toString();
-  //      qDebug() << root <<  "  " << "messageType" << messageType;
 
         if (messageType == "updated") {
-            qDebug() << "Inside updated messageType";
 
         } else if (messageType == "result") {
             
@@ -189,15 +189,6 @@ void DDPClient::onTextMessageReceived(QString message)
             if (id == m_loginJob) {
                 if (root.value("error").toObject().value("error").toInt() == 403) {
                     qDebug() << "Wrong password or token expired";
-                    
-//                     // Kill wrong credentials, so we don't try to use them again
-//                     if (!UserData::instance()->authToken().isEmpty()) {
-//                         UserData::instance()->setAuthToken(QString());
-//                     } else if (!UserData::instance()->password().isEmpty()) {
-//                         UserData::instance()->setPassword(QString());
-//                     }
-//                     setLoginStatus(DDPClient::LoginFailed);
-                    
                     
                     login(); // Let's keep trying to log in
                 } else {
@@ -220,7 +211,9 @@ void DDPClient::onTextMessageReceived(QString message)
             qDebug() << "ERROR!!" << message;
         } else if (messageType == "ping") {
             qDebug() << "Ping - Pong";
-            m_webSocket.sendBinaryMessage("{\"msg\":\"pong\"}");
+            QJsonObject pong;
+            pong["msg"] = "pong";
+            m_webSocket.sendBinaryMessage(QJsonDocument(pong).toJson(QJsonDocument::Compact));
         } else if (messageType == "added"){
             qDebug() << "ADDING" <<root;
             emit added(root);
@@ -250,7 +243,6 @@ void DDPClient::setLoginStatus(DDPClient::LoginStatus l)
 
 void DDPClient::login()
 {
-    qDebug()<<"DDP login()";
     if (!Ruqola::self()->password().isEmpty()) {
  
         // If we have a password and we couldn't log in, let's stop here
@@ -260,15 +252,18 @@ void DDPClient::login()
         }
         
         m_attemptedPasswordLogin = true;
-        QString json = "{\"password\":\"%1\", \"user\": {\"username\":\"%2\"}}";
-        json = json.arg(Ruqola::self()->password()).arg(Ruqola::self()->userName());
-        m_loginJob = method("login", QJsonDocument::fromJson(json.toUtf8()));
+        QJsonObject user;
+        user["username"] = Ruqola::self()->userName();
+        QJsonObject json;
+        json["password"] = Ruqola::self()->password();
+        json["user"] = user;
+        m_loginJob = method("login", QJsonDocument(json));
         
     } else if (!Ruqola::self()->authToken().isEmpty() && !m_attemptedTokenLogin) {
         m_attemptedPasswordLogin = true;
-        QString json = "{\"resume\":\"%1\"}";
-        json = json.arg(Ruqola::self()->authToken());
-        m_loginJob = method("login", QJsonDocument::fromJson(json.toUtf8()));
+        QJsonObject json;
+        json["resume"] = Ruqola::self()->authToken();
+        m_loginJob = method("login", QJsonDocument(json));
     } else {
         setLoginStatus(LoginFailed);
     }
@@ -284,31 +279,21 @@ void DDPClient::onWSConnected()
 {
     qDebug() << "Websocket connected at URL" << m_url;
     
-    QString json("{\"msg\":\"connect\", \"version\": \"1\", \"support\": [\"1\"]}");
-    
-    qint64 bytes = m_webSocket.sendTextMessage(json.toUtf8());
-    if (bytes < json.length()) {
+    QJsonArray supportedVersions;
+    supportedVersions.append("1");
+    QJsonObject protocol;
+    protocol["msg"] = "connect";
+    protocol["version"] = "1";
+    protocol["support"] = supportedVersions;
+//     QString json("{\"msg\":\"connect\", \"version\": \"1\", \"support\": [\"1\"]}");
+    QByteArray serialize = QJsonDocument(protocol).toJson(QJsonDocument::Compact);
+    qint64 bytes = m_webSocket.sendTextMessage(serialize);
+    if (bytes < serialize.length()) {
         qDebug() << "ERROR! I couldn't send all of my message. This is a bug! (try again)";
     } else {
-        qDebug() << "Successfully sent " << json;
+        qDebug() << "Successfully sent " << serialize;
     }
 }
-
-void DDPClient::onWSDisconnected(){
-    qDebug() << "Websocket is disconnected";
-    QString json("{\"msg\":\"disconnect\", \"version\": \"1\", \"support\": [\"1\"]}");
-
-    qint64 bytes = m_webSocket.sendTextMessage(json.toUtf8());
-    if (bytes < json.length()) {
-        qDebug() << "ERROR! I couldn't send all of my message. This is a bug! (try again)";
-    } else {
-        qDebug() << "Successfully sent " << json;
-    }
-}
-
-//void DDPClient::onWSError(QAbstractSocket::SocketError error){
-//    qDebug() << "Websocket had error " << error;
-// }
 
 void DDPClient::WSclosed()
 {

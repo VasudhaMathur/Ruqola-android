@@ -27,24 +27,28 @@
 #include <QAction>
 #include <QMenu>
 
-class Notification: public QSystemTrayIcon{
+class Notification: public QSystemTrayIcon
+{
     Q_OBJECT
+    Q_PROPERTY(bool windowVisible READ windowVisible WRITE setWindowVisible NOTIFY windowVisibleChanged)
     Q_PROPERTY(QString message READ message WRITE setMessage NOTIFY messageChanged)
 
 public:
-    Notification();
+
+    void setWindowVisible(bool val);
+    bool windowVisible() const;
 
     void setMessage(const QString &message);
     QString message() const;
 
+    Notification();
+
 signals:
+    void windowVisibleChanged();
     void messageChanged();
 
 private slots:
-    void updateAndroidNotification();
-
-private:
-    QString m_message;
+    void updateDesktopNotification();
 
 private:
     void createActions();
@@ -52,6 +56,11 @@ private:
 
     QAction *m_quitAction;
     QMenu *m_trayIconMenu;
+    bool m_windowVisible;
+
+    //Notification message
+    QString m_message;
+
 };
 
 #endif // NOTIFICATION_H

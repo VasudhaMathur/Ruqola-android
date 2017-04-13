@@ -65,7 +65,7 @@ RoomWrapper::RoomWrapper(const Room &r, QObject *parent)
 RoomModel::RoomModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-//     connect(UserData::self(), &UserData::loginStatusChanged, this, &RoomModel::onLoginStatusChanged);
+//     connect(Ruqola::self(), &Ruqola::loginStatusChanged, this, &RoomModel::onLoginStatusChanged);
 }
 
 RoomModel::~RoomModel()
@@ -103,16 +103,13 @@ RoomWrapper* RoomModel::findRoom(const QString& roomID) const
         }
     }
     Room r;
-//     RoomWrapper w;
     return new RoomWrapper(r);
 }
 
-// Clear data and refill it it with data in the cache, if there is
+// Clear data and refill it with data in the cache, if there is
 void RoomModel::reset()
 {
-    qDebug()<<"Room Model Reset";
     if (Ruqola::self()->cacheBasePath().isEmpty()) {
-        qDebug()<<"Room Model Reset If";
         return;
     }
     
@@ -121,7 +118,6 @@ void RoomModel::reset()
     QDir cacheDir(Ruqola::self()->cacheBasePath());
     // load cache
     if (cacheDir.exists(cacheDir.path())) {
-        qDebug()<<"Room Model Reset If If ";
         QFile f(cacheDir.absoluteFilePath("rooms"));
         if (f.open(QIODevice::ReadOnly)) {
             QDataStream in(&f);
@@ -133,8 +129,8 @@ void RoomModel::reset()
                 addRoom(m.id, m.name, m.selected);
             }
         }
+        qDebug() << "Cache Loaded";
     }
-    qDebug() << "Cache Loaded";
 }
 
 QHash<int, QByteArray> RoomModel::roleNames() const
@@ -157,7 +153,6 @@ int RoomModel::rowCount(const QModelIndex & parent) const
 
 QVariant RoomModel::data(const QModelIndex & index, int role) const
 {
-//     qDebug() << "GOT ASKED FOR " << index.row();
     Room r = m_roomsList.at(index.row());
     
      if (role == RoomModel::RoomName) {
@@ -186,8 +181,7 @@ void RoomModel::addRoom(const QString& roomID, const QString& roomName, bool sel
         return;
     }
     qDebug() << "Adding room" << roomID << roomName;
-    
-    
+      
     Room r;
     r.id = roomID;
     r.name = roomName;
@@ -199,8 +193,6 @@ void RoomModel::addRoom(const Room &room)
 {
     auto existingRoom = qFind(m_roomsList.begin(), m_roomsList.end(), room);
     bool present = (existingRoom != m_roomsList.end());
-    
-//     qDebug() << "Present? "<< present;
     
     auto i = qUpperBound(m_roomsList.begin(), m_roomsList.end(),
                                                room);
