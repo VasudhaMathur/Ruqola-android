@@ -235,7 +235,7 @@ Ruqola * Ruqola::self()
         m_self->roomModel()->reset();
 
         // Create systray to show notifications
-        m_self->notification();
+//        m_self->notification();
     }
     return m_self;
 }

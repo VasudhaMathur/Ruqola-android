@@ -1,6 +1,7 @@
 TEMPLATE = app
 
 QT += widgets gui core qml quick websockets
+android: QT+= androidextras
 
 HEADERS += src/messagemodel.h src/roommodel.h src/ddpclient.h src/ruqola.h src/rocketchatbackend.h \
     src/notification.h

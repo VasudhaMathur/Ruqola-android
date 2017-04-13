@@ -1,4 +1,3 @@
-
 /*
  * <one line to give the program's name and a brief idea of what it does.>
  * Copyright 2016  Riccardo Iaconelli <riccardo@kde.org>
@@ -24,6 +23,7 @@
 #include "rocketchatbackend.h"
 #include <QtCore>
 #include <QJsonObject>
+#include <QAndroidJniObject>
 #include <QDebug>
 #include "ruqola.h"
 #include "ddpclient.h"
@@ -148,19 +148,7 @@ void RocketChatBackend::processIncomingMessages(QJsonArray messages)
         }
         
         Ruqola::self()->getModelForRoom(roomId)->addMessage(m);
-
-//       qDebug() << "RocketChatBackend::processIncomingMessages sending notification";
-
-//         //Send notifications only when user is logged in
-//         if ( Ruqola::self()->loginStatus() == DDPClient::LoggedIn) {
-//             QString userName = m.username;
-//             QString message = m.message;
-//             QString param = QString("%1 \n %2").arg(userName).arg(message);
-//             Ruqola::self()->notification()->setMessage(param);
-//         } else {
-//             qDebug() << m.username << " recieved message: " <<  m.message;
-//         }
-    }
+   }
 }
 
 RocketChatBackend::RocketChatBackend(QObject* parent)
@@ -220,10 +208,23 @@ void RocketChatBackend::onAdded(QJsonObject object)
          qDebug() << "NEW USER ADDED: " << object.value("userName").toString();
         
     } else if (collection == "rooms") {
-
-    }
-    else if (collection == "stream-notify-user"){
-
+        //SubscribeToTopic
+        QJsonObject fields = object.value("fields").toObject();
+        QString roomID = fields.value("eventName").toString();
+        QAndroidJniObject topic = QAndroidJniObject::fromString(roomID);
+        return QAndroidJniObject::callStaticMethod( "org/kde/ruqola/SubscribeToTopic" // class name
+                                                    , "subscribeTopic" // method name
+                                                    , "(Ljava/lang/String)V" // signature
+                                                    , topic.object<jstring>());
+    } else if (collection == "stream-notify-user"){
+        //SubscribeToTopic
+        QJsonObject fields = object.value("fields").toObject();
+        QString roomID = fields.value("eventName").toString();
+        QAndroidJniObject topic = QAndroidJniObject::fromString(roomID);
+        return QAndroidJniObject::callStaticMethod( "org/kde/ruqola/SubscribeToTopic" // class name
+                                                    , "subscribeTopic" // method name
+                                                    , "(Ljava/lang/String)V" // signature
+                                                    , topic.object<jstring>());
     }
 }
 
@@ -241,15 +242,27 @@ void RocketChatBackend::onChanged(QJsonObject object)
 
     } else if (collection == "users") {
         qDebug() << "USER CHANGED";
-        
     } else if (collection == "rooms") {
 
     } else if (collection == "stream-notify-user") {
         QJsonObject fields = object.value("fields").toObject();
         QJsonArray contents = fields.value("args").toArray();
-//         Ruqola::self()->notification()->setMessage(contents.at(0).toObject()["text"].toString());
         QString message = contents.at(0).toObject()["text"].toString();
-        Ruqola::self()->notification()->showMessage("New message", message, QSystemTrayIcon::Information, 5000 );
+
+        //call Java function
+        QAndroidJniObject msg = QAndroidJniObject::fromString(message);
+        return QAndroidJniObject::callStaticMethod( "org/kde/ruqola/NotificationClient" // class name
+                                                    , "notify" // method name
+                                                    , "(Ljava/lang/String)V" // signature
+                                                    , msg.object<jstring>());
+        // Handle Java exception
+        QAndroidJniEnvironment env;
+        if (env->ExceptionCheck()) {
+                qDebug() << "Error: JNI exception";
+                env->ExceptionClear();
+        }
+
+//        Ruqola::self()->notification()->showMessage("New message", message, QSystemTrayIcon::Information, 5000 );
 
         qDebug() << "New notification" << object.value("fields").toObject();
     }

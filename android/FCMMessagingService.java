@@ -19,9 +19,7 @@
 *
 */
 
-
-
-package org.qtproject.example.notification;
+package org.kde.ruqola.notification;
 
 import android.content.Context;
 import android.content.Intent;
@@ -103,10 +101,6 @@ public class FCMMessagingService extends FirebaseMessagingService {
            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
            pushNotification.putExtra("message", message);
            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-
-           // play notification sound
-//            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-//            notificationUtils.playNotificationSound();
    }
 
    private void handleDataMessage(JSONObject json) {
@@ -118,4 +112,5 @@ public class FCMMessagingService extends FirebaseMessagingService {
    private void showNotificationMessage(Context context, String title, String message, Intent intent) {
 
    }
+
 }//FCMMessagingService Class
