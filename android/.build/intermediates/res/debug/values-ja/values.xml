@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.0/res/values-ja/values.xml -->
+    <eat-comment/>
+    <string msgid="9089562800660647919" name="common_google_play_services_unknown_issue">"「<ns1:g id="APP_NAME">%1$s</ns1:g>」でGoogle Play開発者サービスに問題が発生しています。問題が解決しない場合は、デベロッパーにお問い合わせください。"</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values-ja/strings.xml -->
+    <eat-comment/>
+    <string name="fatal_error_msg">アプリケーションで致命的なエラーが発生したため続行できません。</string>
+    <string name="ministro_needed_msg">このアプリケーションにはMinistroサービスが必要です。 インストールしてもよろしいですか？</string>
+    <string name="ministro_not_found_msg">Ministroサービスが見つかりません。\nアプリケーションが起動できません。</string>
+</resources>

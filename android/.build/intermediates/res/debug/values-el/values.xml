@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.0/res/values-el/values.xml -->
+    <eat-comment/>
+    <string msgid="9089562800660647919" name="common_google_play_services_unknown_issue">"Παρουσιάζονται προβλήματα με τις υπηρεσίες Google Play στην εφαρμογή <ns1:g id="APP_NAME">%1$s</ns1:g>. Εάν το πρόβλημα εξακολουθεί να παρουσιάζεται, επικοινωνήστε με τον προγραμματιστή για βοήθεια."</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values-el/strings.xml -->
+    <eat-comment/>
+    <string name="fatal_error_msg">Παρουσιάστηκε ένα κρίσιμο σφάλμα και η εφαρμογή δεν μπορεί να συνεχίσει.</string>
+    <string name="ministro_needed_msg">Η εφαρμογή απαιτεί την υπηρεσία Ministro. Να εγκατασταθεί η υπηρεσία?</string>
+    <string name="ministro_not_found_msg">Δεν ήταν δυνατή η εύρεση της υπηρεσίας Ministro. Δεν είναι δυνατή η εκκίνηση της εφαρμογής.</string>
+</resources>

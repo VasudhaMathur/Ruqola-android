@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/res/values/libs.xml -->
+    <eat-comment/>
+    <array name="bundled_in_assets">
+        <!-- %%INSERT_BUNDLED_IN_ASSETS%% -->
+    </array>
+    <array name="bundled_in_lib">
+        <!-- %%INSERT_BUNDLED_IN_LIB%% -->
+    </array>
+    <array name="bundled_libs">
+        <!-- %%INSERT_EXTRA_LIBS%% -->
+    </array>
+    <array name="qt_libs">
+         <!-- %%INSERT_QT_LIBS%% -->
+     </array>
+    <array name="qt_sources">
+        <item>https://download.qt.io/ministro/android/qt5/qt-5.8</item>
+    </array>
+    <declare-styleable name="LoadingImageView"><attr format="enum" name="imageAspectRatioAdjust"><enum name="none" value="0"/><enum name="adjust_width" value="1"/><enum name="adjust_height" value="2"/></attr><attr format="float" name="imageAspectRatio"/><attr format="boolean" name="circleCrop"/></declare-styleable>
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.0/res/values/values.xml -->
+    <eat-comment/>
+    <integer name="google_play_services_version">9683000</integer>
+    <string name="common_google_play_services_unknown_issue"><ns1:g id="app_name">%1$s</ns1:g> is having trouble with Google Play services. If the problem persists, please contact the developer for assistance.</string>
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/generated/res/google-services/debug/values/values.xml -->
+    <eat-comment/>
+    <string name="default_web_client_id" translatable="false">143580046552-ep8s928g6r0q4uene88t1unbe59pr7ud.apps.googleusercontent.com</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="fatal_error_msg">Your application encountered a fatal error and cannot continue.</string>
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/generated/res/google-services/debug/values/values.xml -->
+    <eat-comment/>
+    <string name="firebase_database_url" translatable="false">https://ruqola-161705.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">143580046552</string>
+    <string name="google_api_key" translatable="false">AIzaSyAjvuH0dLskVE_STj1PG-tWvqBxxOmf5g4</string>
+    <string name="google_app_id" translatable="false">1:143580046552:android:e2d7a19a5446dc1e</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAjvuH0dLskVE_STj1PG-tWvqBxxOmf5g4</string>
+    <string name="google_storage_bucket" translatable="false">ruqola-161705.appspot.com</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="ministro_needed_msg">This application requires Ministro service. Would you like to install it?</string>
+    <string name="ministro_not_found_msg">Can\'t find Ministro service.\nThe application can\'t start.</string>
+    <string name="unsupported_android_version">Unsupported Android version.</string>
+</resources>

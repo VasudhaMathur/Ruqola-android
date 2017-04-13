@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.0/res/values-zh-rCN/values.xml -->
+    <eat-comment/>
+    <string msgid="9089562800660647919" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g>无法访问 Google Play 服务。如果问题一直存在，请与开发者联系以寻求帮助。"</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values-zh-rCN/strings.xml -->
+    <eat-comment/>
+    <string name="fatal_error_msg">您的应用程序遇到一个致命错误导致它无法继续。</string>
+    <string name="ministro_needed_msg">此应用程序需要Ministro服务。您想安装它吗？</string>
+    <string name="ministro_not_found_msg">无法找到Ministro服务。\n应用程序无法启动。</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.0/res/values-ro/values.xml -->
+    <eat-comment/>
+    <string msgid="9089562800660647919" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> întâmpină probleme privind serviciile Google Play. Dacă problema persistă, contactați dezvoltatorul pentru asistență."</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values-ro/strings.xml -->
+    <eat-comment/>
+    <string name="fatal_error_msg">Aplicaţia dumneavoastră a întâmpinat o eroare fatală şi nu poate continua.</string>
+    <string name="ministro_needed_msg">Această aplicaţie necesită serviciul Ministro.\nDoriţi să-l instalaţi?</string>
+    <string name="ministro_not_found_msg">Serviciul Ministro nu poate fi găsit.\nAplicaţia nu poate porni.</string>
+    <string name="unsupported_android_version">Versiune Android nesuportată.</string>
+</resources>

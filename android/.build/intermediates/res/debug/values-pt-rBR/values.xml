@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.0/res/values-pt-rBR/values.xml -->
+    <eat-comment/>
+    <string msgid="9089562800660647919" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> está tendo problemas com os serviços do Google Play. Se o problema persistir, entre em contato com o desenvolvedor para receber ajuda."</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values-pt-rBR/strings.xml -->
+    <eat-comment/>
+    <string name="fatal_error_msg">Sua aplicação encontrou um erro fatal e não pode continuar.</string>
+    <string name="ministro_needed_msg">Essa aplicação requer o serviço Ministro. Gostaria de instalá-lo?</string>
+    <string name="ministro_not_found_msg">Não foi possível encontrar o serviço Ministro.\nA aplicação não pode iniciar.</string>
+</resources>

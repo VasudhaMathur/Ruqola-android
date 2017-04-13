@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.0/res/values-fa/values.xml -->
+    <eat-comment/>
+    <string msgid="9089562800660647919" name="common_google_play_services_unknown_issue">"‏<ns1:g id="APP_NAME">%1$s</ns1:g> در ارتباط با سرویس‌های Google Play با مشکل روبروست. اگر مشکل ادامه داشت، لطفاً برای دریافت کمک با برنامه‌نویس تماس بگیرید."</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values-fa/strings.xml -->
+    <eat-comment/>
+    <string name="fatal_error_msg">خطایی اساسی در برنامه‌تان رخ داد و اجرای برنامه نمی‌تواند ادامه یابد.</string>
+    <string name="ministro_needed_msg">این نرم‌افزار به سرویس Ministro احتیاج دارد. آیا دوست دارید آن را نصب کنید؟</string>
+    <string name="ministro_not_found_msg">سرویس Ministro را پیدا نمی‌کند. برنامه نمی‌تواند آغاز شود.</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.0/res/values-pl/values.xml -->
+    <eat-comment/>
+    <string msgid="9089562800660647919" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> ma problem z dostępem do usług Google Play. Jeśli problem będzie się utrzymywać, skontaktuj się z programistą, by uzyskać pomoc."</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values-pl/strings.xml -->
+    <eat-comment/>
+    <string name="fatal_error_msg">Wystąpił błąd krytyczny. Aplikacja zostanie zamknięta.</string>
+    <string name="ministro_needed_msg">Aplikacja wymaga usługi Ministro. Czy chcesz ją zainstalować?</string>
+    <string name="ministro_not_found_msg">Usługa Ministro nie została znaleziona.\nAplikacja nie może zostać uruchomiona.</string>
+</resources>

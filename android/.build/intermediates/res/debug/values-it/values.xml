@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/home/vasudha/Qt/Ruqola/Ruqola-master/android/.build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/9.6.0/res/values-it/values.xml -->
+    <eat-comment/>
+    <string msgid="9089562800660647919" name="common_google_play_services_unknown_issue">"<ns1:g id="APP_NAME">%1$s</ns1:g> sta riscontrando problemi con Google Play Services. Se il problema persiste, contatta lo sviluppatore per ricevere assistenza."</string>
+    <!-- From: file:/home/vasudha/Qt/Qt5.8.0/5.8/android_armv7/src/android/java/res/values-it/strings.xml -->
+    <eat-comment/>
+    <string name="fatal_error_msg">L\'applicazione ha provocato un errore grave e non puo\' continuare.</string>
+    <string name="ministro_needed_msg">Questa applicazione richiede il servizio Ministro.Installarlo?</string>
+    <string name="ministro_not_found_msg">Servizio Ministro inesistente. Impossibile eseguire \nl\'applicazione.</string>
+</resources>

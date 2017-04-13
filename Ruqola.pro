@@ -23,6 +23,9 @@ DISTFILES += \
     android/build.gradle \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
-    android/google-services.json
+    android/google-services.json \
+    android/FCMInstanceIDService.java \
+    android/FCMMessagingService.java \
+    android/SubscribeToTopic.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
