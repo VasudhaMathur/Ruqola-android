@@ -23,7 +23,10 @@
 #include "rocketchatbackend.h"
 #include <QtCore>
 #include <QJsonObject>
+#include <QAndroidJniEnvironment>
 #include <QAndroidJniObject>
+#include <QtAndroid>
+
 #include <QDebug>
 #include "ruqola.h"
 #include "ddpclient.h"

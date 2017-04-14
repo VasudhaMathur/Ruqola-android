@@ -27,6 +27,18 @@ DISTFILES += \
     android/google-services.json \
     android/FCMInstanceIDService.java \
     android/FCMMessagingService.java \
-    android/SubscribeToTopic.java
+    android/SubscribeToTopic.java \
+    android/org.kde.ruqola/service/FCMInstanceIDService.java \
+    android/android.iml \
+    android/res/drawable-ldpi/icon.png \
+    android/org.kde.ruqola/service/FCMMessagingService.java \
+    android/org.kde.ruqola/util/SubscribeToTopic.java \
+    android/gradle.properties \
+    android/local.properties \
+    android/org.kde.ruqola/app/Config.java \
+    android/org.kde.ruqola/util/NotificationUtils.java \
+    android/res/raw/notification.mp3 \
+    android/MainActivity.java \
+    android/org.kde.ruqola/activity/MainActivity.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
