@@ -19,20 +19,25 @@
 *
 */
 
-package info.androidhive.firebasenotifications.app;
+package org.kde.ruqola.util;
 
-public class Config {
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
+import android.util.Log;
 
-    // global topic to receive app wide push notifications
-    public static final String TOPIC_GLOBAL = "global";
+import com.google.firebase.messaging.FirebaseMessaging;
 
-    // broadcast receiver intent filters
-    public static final String REGISTRATION_COMPLETE = "registrationComplete";
-    public static final String PUSH_NOTIFICATION = "pushNotification";
 
-    // id to handle the notification in the notification tray
-    public static final int NOTIFICATION_ID = 100;
-    public static final int NOTIFICATION_ID_BIG_IMAGE = 101;
 
-    public static final String SHARED_PREF = "ah_firebase";
+public class SubscribeToTopic {
+
+    public void subscribeTopic(String topic) {
+            // gcm successfully registered
+            // now subscribe to topic to receive app wide notifications
+            FirebaseMessaging.getInstance().subscribeToTopic(topic);
+    }
+
 }

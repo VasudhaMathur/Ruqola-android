@@ -19,6 +19,7 @@
 *
 */
 
+/*
 package org.kde.ruqola.util;
 
 import android.app.ActivityManager;
@@ -224,6 +225,7 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
     }
 }
 
+*/
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
@@ -233,10 +235,13 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 
-/*
+package org.kde.ruqola.util;
+
+import org.kde.ruqola.R;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+
 
 public class NotificationUtil extends org.qtproject.qt5.android.bindings.QtActivity{
    private static NotificationManager m_notificationManager;
@@ -254,13 +259,14 @@ public class NotificationUtil extends org.qtproject.qt5.android.bindings.QtActiv
        if (m_notificationManager == null) {
            m_notificationManager = (NotificationManager)m_instance.getSystemService(Context.NOTIFICATION_SERVICE);
            m_builder = new Notification.Builder(m_instance);
-           m_builder.setSmallIcon(R.drawable-lpdi.icon);
+           m_builder.setSmallIcon(R.drawable.icon);
            m_builder.setContentTitle("New message!");
        }
 
        m_builder.setContentText(s);
        m_notificationManager.notify(1, m_builder.build());
    }
-}//NotificationClient Class
 
-*/
+}//NotificationUtil Class
+
+

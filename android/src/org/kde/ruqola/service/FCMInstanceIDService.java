@@ -19,7 +19,7 @@
 *
 */
 
-package org.kde.ruqola.notification;
+package org.kde.ruqola.service;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

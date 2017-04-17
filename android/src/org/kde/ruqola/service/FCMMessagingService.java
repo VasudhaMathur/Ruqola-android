@@ -19,7 +19,7 @@
 *
 */
 
-package org.kde.ruqola.android.service;
+package org.kde.ruqola.service;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,16 +34,15 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.kde.ruqola.activity.MainActivity;
 import org.kde.ruqola.app.Config;
-import org.kde.ruqola.util.NotificationUtils;
+import org.kde.ruqola.util.NotificationUtil;
 
 
 public class FCMMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = FCMMessagingService.class.getSimpleName();
 
-    private NotificationUtils notificationUtils;
+    private NotificationUtil notificationUtils;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -72,34 +71,24 @@ public class FCMMessagingService extends FirebaseMessagingService {
     }
 
     private void handleNotification(String message) {
-        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
             // app is in foreground, broadcast the push message
             Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
             pushNotification.putExtra("message", message);
             LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-
-            // play notification sound
-            NotificationUtils notificationUtils = new NotificationUtils(getApplicationContext());
-            notificationUtils.playNotificationSound();
-        }else{
-            // If the app is in background, firebase itself handles the notification
-        }
     }
 
     // Showing notification with text only
-    private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
-        notificationUtils = new NotificationUtils(context);
+    private void showNotificationMessage(Context context, String message, Intent intent) {
+        notificationUtils = new NotificationUtil();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationUtils.showNotificationMessage(title, message, timeStamp, intent);
+        //notificationUtils.notify(title, message, timeStamp, intent);
+        notificationUtils.notify(message);
+     }
+
+    private void handleDataMessage(JSONObject json) {
+        //handle data message
     }
 
-
-    // Showing notification with text and image
-    private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
-        notificationUtils = new NotificationUtils(context);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationUtils.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
-    }
 
 }//FCMMessagingService Class
 

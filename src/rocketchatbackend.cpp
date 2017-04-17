@@ -215,16 +215,16 @@ void RocketChatBackend::onAdded(QJsonObject object)
         QJsonObject fields = object.value("fields").toObject();
         QString roomID = fields.value("eventName").toString();
         QAndroidJniObject topic = QAndroidJniObject::fromString(roomID);
-        return QAndroidJniObject::callStaticMethod( "org/kde/ruqola/SubscribeToTopic" // class name
+        QAndroidJniObject::callStaticObjectMethod( "src/org/kde/ruqola/util/SubscribeToTopic" // class name
                                                     , "subscribeTopic" // method name
-                                                    , "(Ljava/lang/String)V" // signature
-                                                    , topic.object<jstring>());
+                                                    , "(Ljava/lang/String;)V" // signature
+                                                    , topic.object<jstring>() );
     } else if (collection == "stream-notify-user"){
         //SubscribeToTopic
         QJsonObject fields = object.value("fields").toObject();
         QString roomID = fields.value("eventName").toString();
         QAndroidJniObject topic = QAndroidJniObject::fromString(roomID);
-        return QAndroidJniObject::callStaticMethod( "org/kde/ruqola/SubscribeToTopic" // class name
+        QAndroidJniObject::callStaticObjectMethod( "android/src/org/kde/ruqola/util/SubscribeToTopic" // class name
                                                     , "subscribeTopic" // method name
                                                     , "(Ljava/lang/String)V" // signature
                                                     , topic.object<jstring>());
@@ -254,7 +254,7 @@ void RocketChatBackend::onChanged(QJsonObject object)
 
         //call Java function
         QAndroidJniObject msg = QAndroidJniObject::fromString(message);
-        return QAndroidJniObject::callStaticMethod( "org/kde/ruqola/NotificationClient" // class name
+        QAndroidJniObject::callStaticObjectMethod( "android/src/org/kde/ruqola/util/NotificationUtil" // class name
                                                     , "notify" // method name
                                                     , "(Ljava/lang/String)V" // signature
                                                     , msg.object<jstring>());

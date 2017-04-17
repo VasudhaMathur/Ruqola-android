@@ -39,6 +39,13 @@ DISTFILES += \
     android/org.kde.ruqola/util/NotificationUtils.java \
     android/res/raw/notification.mp3 \
     android/MainActivity.java \
-    android/org.kde.ruqola/activity/MainActivity.java
+    android/org.kde.ruqola/activity/MainActivity.java \
+    android/src/org/kde/ruqola/activity/MainActivity.java \
+    android/src/org/kde/ruqola/app/Config.java \
+    android/src/org/kde/ruqola/service/FCMInstanceIDService.java \
+    android/src/org/kde/ruqola/service/FCMMessagingService.java \
+    android/src/org/kde/ruqola/util/SubscribeToTopic.java \
+    android/src/org/kde/ruqola/util/NotificationUtil.java \
+    android/res/drawable/icon.png
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
