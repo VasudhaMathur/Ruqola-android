@@ -63,8 +63,8 @@ ApplicationWindow {
 
     Login {
         id: loginTab
-        visible: (Ruqola.loginStatus == DDPClient.LoginFailed || Ruqola.loginStatus == DDPClient.LoggedOut)
-//        visible: (Ruqola.loginStatus != DDPClient.LoggedIn)
+//        visible: (Ruqola.loginStatus == DDPClient.LoginFailed || Ruqola.loginStatus == DDPClient.LoggedOut)
+        visible: (Ruqola.loginStatus != DDPClient.LoggedIn)
         anchors.fill:parent
         z: 10
         serverURL: Ruqola.serverURL
@@ -80,7 +80,7 @@ ApplicationWindow {
     BusyIndicator {
         id: busy
         anchors.centerIn: parent
-        visible: Ruqola.loginStatus == DDPClient.LoggingIn
+        visible: Ruqola.loginStatus === DDPClient.LoggingIn
     }
 
     Item {
@@ -263,7 +263,7 @@ ApplicationWindow {
             anchors.right: parent.right
             anchors.left: roomsList.right
             anchors.bottom: parent.bottom
-            placeholderText: if (Ruqola.loginStatus != DDPClient.LoggedIn || (selectedRoomID=="")){
+            placeholderText: if (Ruqola.loginStatus !== DDPClient.LoggedIn || (selectedRoomID=="")){
                                  qsTr("Please Select a room")
                              }
                              else{
@@ -272,7 +272,7 @@ ApplicationWindow {
             height: 2.7*font.pixelSize
 
             onAccepted: {
-                if (text != "" && Ruqola.loginStatus == DDPClient.LoggedIn && !(selectedRoomID=="")) {
+                if (text != "" && Ruqola.loginStatus === DDPClient.LoggedIn && !(selectedRoomID=="")) {
                     Ruqola.sendMessage(selectedRoomID, text);
                     text = "";
                 }
@@ -287,8 +287,9 @@ ApplicationWindow {
     }
     
     onClosing: {
-        console.log("Minimizing to systray...");
-        hide();
+//        console.log("Minimizing to systray...");
+//        hide();
+          close.accepted = true;
     }
     
 

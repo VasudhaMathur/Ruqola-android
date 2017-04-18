@@ -39,11 +39,15 @@ public class FCMInstanceIDService extends FirebaseInstanceIdService {
        super.onTokenRefresh();
        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-       // Saving reg id to shared preferences
-       storeRegIdInPref(refreshedToken);
+       Log.d(TAG, "User FirebaseInstanceID: " + refreshedToken);
 
        // sending reg id to your server
        sendRegistrationToServer(refreshedToken);
+
+
+       // Saving reg id to shared preferences
+       storeRegIdInPref(refreshedToken);
+
 
        // Notify UI that registration has completed, so the progress indicator can be hidden
        Intent registrationComplete = new Intent(Config.REGISTRATION_COMPLETE);

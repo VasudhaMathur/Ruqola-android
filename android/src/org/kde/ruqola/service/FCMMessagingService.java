@@ -40,55 +40,68 @@ import org.kde.ruqola.util.NotificationUtil;
 
 public class FCMMessagingService extends FirebaseMessagingService {
 
-    private static final String TAG = FCMMessagingService.class.getSimpleName();
+        private static final String TAG = FCMMessagingService.class.getSimpleName();
 
-    private NotificationUtil notificationUtils;
+        private NotificationUtil notificationUtil;
 
-    @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.e(TAG, "From: " + remoteMessage.getFrom());
+        @Override
+        public void onMessageReceived(RemoteMessage remoteMessage) {
+            Log.e(TAG, "From: " + remoteMessage.getFrom());
 
-        if (remoteMessage == null)
-            return;
+            if (remoteMessage == null)
+                return;
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
-            handleNotification(remoteMessage.getNotification().getBody());
-        }
+            // Check if message contains a notification payload.
+            if (remoteMessage.getNotification() != null) {
+                Log.e(TAG, "Notification Body: " + remoteMessage.getNotification().getBody());
+                handleNotification(remoteMessage.getNotification().getBody());
+            }
 
-        // Check if message contains a data payload.
-        if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+            // Check if message contains a data payload.
+            if (remoteMessage.getData().size() > 0) {
+                Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
 
-            try {
-                JSONObject json = new JSONObject(remoteMessage.getData().toString());
-                handleDataMessage(json);
-            } catch (Exception e) {
-                Log.e(TAG, "Firebase Service No Data Exception: " + e.getMessage());
+                try {
+                    JSONObject json = new JSONObject(remoteMessage.getData().toString());
+                    handleDataMessage(json);
+                } catch (Exception e) {
+                    Log.e(TAG, "Exception: " + e.getMessage());
+                }
             }
         }
-    }
 
-    private void handleNotification(String message) {
-            // app is in foreground, broadcast the push message
-            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-            pushNotification.putExtra("message", message);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-    }
+        private void handleNotification(String message) {
+            if (!NotificationUtil.isAppInBackground(getApplicationContext())) {
+                // app is in foreground, broadcast the push message
+                Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
+                pushNotification.putExtra("message", message);
+                LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
 
-    // Showing notification with text only
-    private void showNotificationMessage(Context context, String message, Intent intent) {
-        notificationUtils = new NotificationUtil();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        //notificationUtils.notify(title, message, timeStamp, intent);
-        notificationUtils.notify(message);
-     }
+                // play notification sound
+                NotificationUtil notificationUtil = new NotificationUtil(getApplicationContext());
+                notificationUtil.playNotificationSound();
+            }else{
+                // If the app is in background, firebase itself handles the notification
+            }
+        }
 
-    private void handleDataMessage(JSONObject json) {
-        //handle data message
-    }
+        private void handleDataMessage(JSONObject json) {
+            Log.e(TAG, "push json: " + json.toString());
+        }
 
+        //Showing notification with text only
+        private void showNotificationMessage(Context context, String title, String message, String timeStamp, Intent intent) {
+            notificationUtil = new NotificationUtil(context);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            notificationUtil.showNotificationMessage(title, message, timeStamp, intent);
+        }
+
+        //Showing notification with text and image
+        private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
+            notificationUtil = new NotificationUtil(context);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            notificationUtil.showNotificationMessage(title, message, timeStamp, intent, imageUrl);
+        }
 
 }//FCMMessagingService Class
 

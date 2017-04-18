@@ -19,7 +19,7 @@
 *
 */
 
-/*
+
 package org.kde.ruqola.util;
 
 import android.app.ActivityManager;
@@ -53,13 +53,11 @@ import java.util.List;
 import org.kde.ruqola.R;
 import org.kde.ruqola.app.Config;
 
-public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActivity{
-
-    private static String TAG = NotificationUtils.class.getSimpleName();
+public class NotificationUtil extends org.qtproject.qt5.android.bindings.QtActivity{
 
     private Context mContext;
 
-    public NotificationUtils(Context mContext) {
+    public NotificationUtil(Context mContext) {
         this.mContext = mContext;
     }
 
@@ -73,7 +71,7 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
             return;
 
         // notification icon
-        final int icon = R.drawable-ldpi.icon;
+        final int icon = R.drawable.icon;
 
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent resultPendingIntent =
@@ -89,13 +87,13 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
         final Uri alarmSound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
                 + "://" + mContext.getPackageName() + "/raw/notification");
 
+        //message contains image
         if (!TextUtils.isEmpty(imageUrl)) {
 
             if (imageUrl != null && imageUrl.length() > 4 && Patterns.WEB_URL.matcher(imageUrl).matches()) {
-
                 Bitmap bitmap = getBitmapFromURL(imageUrl);
 
-                if (bitmap != null) {
+                 if (bitmap != null) {
                     showBigNotification(bitmap, mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
                 } else {
                     showSmallNotification(mBuilder, icon, title, message, timeStamp, resultPendingIntent, alarmSound);
@@ -107,7 +105,6 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
         }
     }
 
-
     private void showSmallNotification(NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
 
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
@@ -115,14 +112,14 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
         inboxStyle.addLine(message);
 
         Notification notification;
-        notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
+        notification = mBuilder.setTicker(title).setWhen(0)
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentIntent(resultPendingIntent)
                 .setSound(alarmSound)
                 .setStyle(inboxStyle)
                 .setWhen(getTimeMilliSec(timeStamp))
-                .setSmallIcon(R.drawable-ldpi.icon)
+                .setSmallIcon(icon)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
                 .build();
@@ -131,6 +128,7 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
         notificationManager.notify(Config.NOTIFICATION_ID, notification);
     }
 
+    //message containing image
     private void showBigNotification(Bitmap bitmap, NotificationCompat.Builder mBuilder, int icon, String title, String message, String timeStamp, PendingIntent resultPendingIntent, Uri alarmSound) {
         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
         bigPictureStyle.setBigContentTitle(title);
@@ -144,7 +142,7 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
                 .setSound(alarmSound)
                 .setStyle(bigPictureStyle)
                 .setWhen(getTimeMilliSec(timeStamp))
-                .setSmallIcon(R.drawable-ldpi.icon)
+                .setSmallIcon(R.drawable.icon)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
                 .setContentText(message)
                 .build();
@@ -182,7 +180,7 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
     }
 
     //Checks if the app is in background or not
-    public static boolean isAppIsInBackground(Context context) {
+    public static boolean isAppInBackground(Context context) {
         boolean isInBackground = true;
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH) {
@@ -225,7 +223,7 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
     }
 }
 
-*/
+
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
@@ -235,6 +233,8 @@ public class NotificationUtils extends org.qtproject.qt5.android.bindings.QtActi
 //---------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------
 
+
+/*
 package org.kde.ruqola.util;
 
 import org.kde.ruqola.R;
@@ -270,3 +270,4 @@ public class NotificationUtil extends org.qtproject.qt5.android.bindings.QtActiv
 }//NotificationUtil Class
 
 
+*/
