@@ -1,24 +1,3 @@
-/*
- * <one line to give the program's name and a brief idea of what it does.>
- * Copyright 2016  Riccardo Iaconelli <riccardo@kde.org>
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of
- * the License or (at your option) version 3 or any later version
- * accepted by the membership of KDE e.V. (or its successor approved
- * by the membership of KDE e.V.), which shall act as a proxy
- * defined in Section 14 of version 3 of the license.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 
 // Skeleton from https://github.com/achipa/outqross_blog.git
 // Almost everything has been re-adapted
@@ -43,12 +22,12 @@ import KDE.Ruqola.Notification 1.0
 ApplicationWindow {
     property int margin: 11
     property string statusText
-    
+
     property string lightGreen: "#6ab141";
     property string darkGreen: "#00613a";
-    
+
     property string selectedRoomID: "";
-    
+
     id: appid
     title: qsTr("Ruqola")
     width: 800
@@ -63,8 +42,8 @@ ApplicationWindow {
 
     Login {
         id: loginTab
-//        visible: (Ruqola.loginStatus == DDPClient.LoginFailed || Ruqola.loginStatus == DDPClient.LoggedOut)
-        visible: (Ruqola.loginStatus != DDPClient.LoggedIn)
+        visible: (Ruqola.loginStatus == DDPClient.LoginFailed || Ruqola.loginStatus == DDPClient.LoggedOut)
+//        visible: (Ruqola.loginStatus != DDPClient.LoggedIn)
         anchors.fill:parent
         z: 10
         serverURL: Ruqola.serverURL
@@ -74,13 +53,13 @@ ApplicationWindow {
             Ruqola.userName = loginTab.username;
             Ruqola.serverURL = loginTab.serverURL;
             Ruqola.tryLogin();
-        }        
+        }
     }
-    
+
     BusyIndicator {
         id: busy
         anchors.centerIn: parent
-        visible: Ruqola.loginStatus === DDPClient.LoggingIn
+        visible: Ruqola.loginStatus == DDPClient.LoggingIn
     }
 
     Item {
@@ -105,39 +84,41 @@ ApplicationWindow {
                 color: "white"
                 text: "Hello, " + Ruqola.userName
             }
-            
+
         }
-            
+
         RoomsView {
             anchors.top: userBox.bottom
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            anchors.margins: 0            
+            anchors.margins: 0
             width: 200
             height: appid.height
 
             id: roomsList
-            
+
             model: Ruqola.roomModel()
 
             visible: parent.visible
-            
+
             selectedRoomID: appid.selectedRoomID;
-            
+
             onRoomSelected: {
                 if (roomID == selectedRoomID) {
                     return;
                 }
+
+
                 console.log("Choosing room", roomID);
                 appid.selectedRoomID = roomID;
                 activeChat.model = Ruqola.getModelForRoom(roomID)
                 topicWidget.selectedRoom = Ruqola.getRoom(roomID)
             }
-            
+
             onCountChanged: {
 //                 console.log("We have", roomsList.count, "rooms")
             }
-            
+
             LinearGradient {
                 id: greenGradient
                 anchors.fill: parent
@@ -148,26 +129,17 @@ ApplicationWindow {
                     GradientStop { position: 1.0; color: "#00613a" }
                 }
                 z: -1;
-                
+
             }
-        }
-        
-        
+        } //RoomsView
+
+
         Item {
             anchors.right: parent.right
             anchors.left: roomsList.right
             anchors.top: parent.top
             anchors.bottom: messageLine.top
-            
-//             Item {
-//                 anchors.fill: parent
-//                 id: greeter
-//                 visible: false
-// //                 visible: selectedRoomID.empty
-//                 Text {
-//                     text: "Welcome to Ruqola!";
-//                 }
-//             }
+            id: chatView
             Rectangle {
                 id: topicWidget
                 color: "#fff"
@@ -176,7 +148,7 @@ ApplicationWindow {
                 anchors.left: parent.left
                 height: nameLabel.height + topicLabel.height
                 property var selectedRoom;
-                
+
                 Text {
                     id: nameLabel
                     text: "#" + parent.selectedRoom.name
@@ -189,37 +161,37 @@ ApplicationWindow {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    
+
                 }
-                
+
                 Text {
                     id: topicLabel
                     text: topicWidget.selectedRoom.topic
-                    
+
                     anchors.top: nameLabel.bottom
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    
+
                     horizontalAlignment: Text.AlignHCenter
-                    
+
                     height: font.pixelSize + 10
                 }
 
             }
-            
+
             ScrollView {
-                
+
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.top: topicWidget.bottom
-                anchors.bottom: parent.bottom
-                
+                anchors.bottom: input.top
+
                 verticalScrollBarPolicy: Qt.ScrollBarAlwaysOn
 //                 visible: parent.visible && (Ruqola.loginStatus != DDPClient.LoggingIn)
 //                visible: !greeter.visible
 
-         
+
                 ListView {
                     id: activeChat
 //                     model: Ruqola.getModelForRoom(selectedRoomID)
@@ -241,12 +213,12 @@ ApplicationWindow {
     //                 model: myModel
                     anchors.fill:parent
                     visible : count > 0
-                    
-                    
+
+
                     z: -1
-                    
+
         //             ScrollBar.vertical: ScrollBar { }
-                    
+
                     delegate: Message {
                                 i_messageText: messageText
                                 i_username: username
@@ -256,65 +228,91 @@ ApplicationWindow {
                             }
                 }
             }
-        } //Item
+        } //Item chatView
 
-        TextField {
-            id: messageLine
-            anchors.right: parent.right
-            anchors.left: roomsList.right
+        Item{
             anchors.bottom: parent.bottom
-            placeholderText: if (Ruqola.loginStatus !== DDPClient.LoggedIn || (selectedRoomID=="")){
-                                 qsTr("Please Select a room")
-                             }
-                             else{
-                                 qsTr("Enter message")
-                             }
-            height: 2.7*font.pixelSize
+            anchors.top: activeChat.bottom
+            anchors.left: roomsList.right
+            anchors.right: parent.right
+            id: input
+            height: 40
 
-            onAccepted: {
-                if (text != "" && Ruqola.loginStatus === DDPClient.LoggedIn && !(selectedRoomID=="")) {
-                    Ruqola.sendMessage(selectedRoomID, text);
-                    text = "";
+            TextField {
+                id: messageLine
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                anchors.top: parent.top
+                anchors.right: attachmentsButton.left
+                placeholderText: if (Ruqola.loginStatus != DDPClient.LoggedIn || (selectedRoomID=="")){
+                                     qsTr("Please Select a room")
+                                 }
+                                 else{
+                                     qsTr("Enter message")
+                                 }
+                height: 2.7*font.pixelSize
+                onAccepted: {
+                    if (text != "" && Ruqola.loginStatus == DDPClient.LoggedIn && !(selectedRoomID=="")) {
+                        Ruqola.sendMessage(selectedRoomID, text);
+                        text = "";
+                    }
                 }
             }
-        }
+
+                Button {
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    width: 50
+                    id : attachmentsButton
+                    iconName: "Button"
+                    text: "Click"
+                    height: 2.7*font.pixelSize
+                    visible: true
+                    onClicked: Ruqola.attachmentButtonClicked();
+                }
+        }//Item input
+
+
+
     }// mainWidget Item
-    
+
     Rectangle {
         z: -10
         anchors.fill: parent
         color: "white"
     }
-    
+
     onClosing: {
-//        console.log("Minimizing to systray...");
-//        hide();
-          close.accepted = true;
+        console.log("Minimizing to systray...");
+        hide();
+        systrayIcon.windowVisible = visible;
     }
-    
+
 
     function toggleShow() {
 
         if (visible) {
             hide();
+            systrayIcon.windowVisible = visible;
         } else {
             show();
             raise();
             requestActivate();
+            systrayIcon.windowVisible = visible;
         }
     }
 
     Component.onCompleted: {
-//           systrayIcon.activated.connect(toggleShow);
-//           systrayIcon.messageClicked.connect(toggleShow);
-
+           systrayIcon.activated.connect(toggleShow);
+           systrayIcon.messageClicked.connect(toggleShow);
 //        roomsList.model = Ruqola.roomModel();
 
 //        timer.start();
 //        timer.fire();
     }
 
-/*    
+/*
     Timer {
         id: timer
         interval: 1000
@@ -327,7 +325,7 @@ ApplicationWindow {
                 case Ruqola.LoggedIn:
                         statusText = qsTr("Connected to " + Ruqola.serverURL);
                         break;
-                    
+
             }
         }
         repeat: true

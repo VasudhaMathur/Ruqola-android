@@ -73,6 +73,8 @@ public:
     DDPClient *ddp();
     Notification * notification();
 
+    Q_INVOKABLE bool attachmentButtonClicked();
+
     Q_INVOKABLE RoomModel *roomModel();
     Q_INVOKABLE void sendMessage(const QString &roomID, const QString &message);
     Q_INVOKABLE MessageModel* getModelForRoom(const QString &roomID);

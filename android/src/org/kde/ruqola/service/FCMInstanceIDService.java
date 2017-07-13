@@ -40,7 +40,6 @@ public class FCMInstanceIDService extends FirebaseInstanceIdService {
        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
        Log.d(TAG, "User FirebaseInstanceID: " + refreshedToken);
-
        // sending reg id to your server
        sendRegistrationToServer(refreshedToken);
 

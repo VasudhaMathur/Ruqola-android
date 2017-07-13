@@ -77,6 +77,24 @@ void Ruqola::setUserID(const QString& userID)
     emit userIDChanged();
 }
 
+
+bool Ruqola::attachmentButtonClicked()
+{
+    //open fileDialogBox, select an image, convert it to bytearray and send as message
+//    QFileDialog dialog(NULL);
+//    dialog.setFileMode(QFileDialog::ExistingFile);
+//    dialog.setViewMode(QFileDialog::List);
+//    QUrl filePath = QFileDialog::getOpenFileUrl(Q_NULLPTR,
+//                                              "Select one or more files to open",
+//                                              QDir::homePath(),
+//                                              "Images (*.png *.jpeg *.jpg)");
+
+
+
+    return true;
+}
+
+
 RoomModel * Ruqola::roomModel()
 {
     if (!m_roomModel) {

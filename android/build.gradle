@@ -19,7 +19,10 @@ apply plugin: 'com.android.application'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.google.firebase:firebase-core:9.6.0'
     compile 'com.google.firebase:firebase-messaging:9.6.0'
+    compile 'com.google.firebase:firebase-crash:9.6.0'
 }
 
 android {
@@ -36,9 +39,9 @@ android {
      * Changing them manually might break the compilation!
      *******************************************************/
 
-    compileSdkVersion 24 //androidCompileSdkVersion.toInteger()
+    compileSdkVersion androidCompileSdkVersion.toInteger()
 
-    buildToolsVersion "24.0.2" //androidBuildToolsVersion
+    buildToolsVersion androidBuildToolsVersion
 
     sourceSets {
         main {
